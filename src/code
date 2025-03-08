@@ -57,3 +57,26 @@
   <script setup>
   </script>
   
+
+
+
+
+
+
+
+
+
+  <tbody>
+    <tr class="hover:bg-gray-100">
+            <td class="py-3 text-center">101</td>
+            <td class="py-3 text-center ">2024-03-05</td>
+            <td class="py-3 text-center ">5000</td>
+            <td class="py-3 text-center ">250</td>
+            <td class="py-3 text-center ">
+                <span class="py-3 text-center rounded-lg text-white bg-yellow-500 text-sm">PENDING</span>
+            </td>
+            <td class="py-3 text-center">5</td>
+            <td class="py-3 px-4  text-center">3.2</td>
+            <td class="py-3 px-4  text-center">202</td>
+        </tr>
+            </tbody>

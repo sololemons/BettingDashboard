@@ -8,7 +8,7 @@
               <router-link to="/analytics" class="block p-2 rounded hover:bg-slate-950 transform hover:scale-95 transition font-bold text-lg ">Dashboard Analytics</router-link>
             </li>
             <li>
-              <router-link to="#" class="block p-2 rounded hover:bg-slate-950 transform hover:scale-95 transition font-bold text-lg">Profiles</router-link>
+              <router-link to="/profiles" class="block p-2 rounded hover:bg-slate-950 transform hover:scale-95 transition font-bold text-lg">Profiles</router-link>
             </li>
             <li>
               <router-link to="#" class="block p-2 rounded hover:bg-slate-950 transform hover:scale-95 transition font-bold text-lg">Customers</router-link>
@@ -19,7 +19,7 @@
           </ul>
         </nav>
       </aside>
-      <main class="flex-1 p-6 bg-slate-100 overflow-auto scrollbar-hide">
+      <main class="flex-1 p-6 bg-gray-900 overflow-auto scrollbar-hide">
         <router-view></router-view>
       </main>
     </div>

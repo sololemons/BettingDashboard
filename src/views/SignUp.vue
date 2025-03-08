@@ -28,9 +28,7 @@ const password = ref('');
 const confirmPassword = ref('');
 
 const handleSubmit = () => {
-  console.log('Phone:', phone.value);
-  console.log('Password:', password.value);
-  console.log('ConfirmPassword', confirmPassword.value)
+
 
 };
 </script>
