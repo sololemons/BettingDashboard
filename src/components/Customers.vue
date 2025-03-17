@@ -1,6 +1,9 @@
 <template>
   <div class="p-6">
     <h2 class="text-2xl font-extrabold mb-4">Customers</h2>
+    <div v-if="loading">
+      <LoadingSpinner :show="loading"/>
+    </div>
 
     <div class="mb-4 flex items-center justify-between">
       <input 
@@ -61,12 +64,14 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import LoadingSpinner from './LoadingSpinner.vue';
 const router = useRouter();
 const customers = ref([]);
 const page = ref(0);
 const totalPages = ref(1);
 const pageSize = 10;
 const searchQuery = ref("");
+const loading = ref(true)
 
 const fetchCustomers = async () => {
   try {
@@ -75,6 +80,9 @@ const fetchCustomers = async () => {
     totalPages.value = response.data.totalPages;
   } catch (error) {
     console.error("Error fetching customers:", error);
+  }
+  finally{
+    loading.value = false
   }
 };
 

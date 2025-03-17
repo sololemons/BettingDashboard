@@ -10,8 +10,8 @@
           <li><router-link to="/analytics" class="block p-2 rounded hover:bg-slate-950 transition font-bold text-lg">Dashboard Analytics</router-link></li>
           <li><router-link to="/profiles" class="block p-2 rounded hover:bg-slate-950 transition font-bold text-lg">Profiles</router-link></li>
           <li><router-link to="/customers" class="block p-2 rounded hover:bg-slate-950 transition font-bold text-lg">Customers</router-link></li>
-          <li><router-link to="#" class="block p-2 rounded hover:bg-slate-950 transition font-bold text-lg">Transactions</router-link></li>
-          <li><router-link to="#" class="block p-2 rounded hover:bg-slate-950 transition font-bold text-lg">Games</router-link></li>
+          <li><router-link to="/transaction" class="block p-2 rounded hover:bg-slate-950 transition font-bold text-lg">Transactions</router-link></li>
+          <li><router-link to="/games" class="block p-2 rounded hover:bg-slate-950 transition font-bold text-lg">Games</router-link></li>
         </ul>
       </nav>
 

@@ -1,5 +1,8 @@
 <template>
   <div class="p-4">
+    <div v-if="loading">
+      <LoadingSpinner :show="loading" />
+    </div>
     <div class="relative w-full max-w-lg mx-auto">
       <input
         v-model="searchPhone"
@@ -15,7 +18,7 @@
         Search
       </button>
     </div>
-
+   
     <div class="flex flex-col lg:flex-row gap-4 mt-4">
       <div class="flex flex-col items-center border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[40%] p-6 rounded-2xl shadow-md">
         <div class="text-2xl font-extrabold hover:scale-95 transition cursor-pointer">Profile</div>
@@ -44,7 +47,7 @@
         <tbody>
           <tr v-for="bet in bets" :key="bet.betId" class="hover:bg-green-500 cursor-pointer text-center" @click="openModal(bet.betId)">
             <td class="py-3">{{ bet.betId }}</td>
-            <td class="py-3">{{ bet.betPlacedOn }}</td>
+            <td class="py-3">{{ formatDate(bet.betPlacedOn) }}</td>
             <td class="py-3">{{ bet.possibleWin }}</td>
             <td class="py-3">{{ bet.stake }}</td>
             <td class="py-3">
@@ -66,6 +69,7 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import BetslipModal from "./BetslipModal.vue";
 import { useRoute } from "vue-router";
+import LoadingSpinner from "./LoadingSpinner.vue";
 
 const router = useRoute()
 const searchPhone = ref("");
@@ -73,12 +77,13 @@ const betslips = ref([]);
 const user = ref(null);
 const bets = ref([]);
 const isModalOpen = ref(false);
-
+const loading = ref(false)
 const fetchUserProfile = async () => {
   if (!searchPhone.value) {
     console.warn("Enter a phone number to search.");
     return;
   }
+  loading.value = true;
 
   try {
 const response = await axios.get(`http://localhost:8081/admins/get?phoneNumber=${encodeURIComponent(searchPhone.value)}`);
@@ -95,6 +100,9 @@ const response = await axios.get(`http://localhost:8081/admins/get?phoneNumber=$
     console.error("No user found", error);
     user.value = null;
     bets.value = [];
+  }
+  finally{
+    loading.value = false
   }
 };
 
@@ -122,6 +130,11 @@ const fetchBetslips = async (betID) => {
     betslips.value = [];
   }
 };
+const formatDate = (dateString) => {
+    const options = { weekday: "long", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
+    return new Date(dateString).toLocaleDateString("en-US", options);
+  };
+  
 onMounted(() => {
   if (router.query.phoneNumber) {
     searchPhone.value = router.query.phoneNumber;

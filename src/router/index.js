@@ -6,6 +6,8 @@ import Analytics from '@/components/Analytics.vue'
 import Stle from '@/components/stle.vue'
 import Profiles from '@/components/Profiles.vue'
 import Customers from '@/components/Customers.vue'
+import Games from '@/components/Games.vue'
+import Transaction from '@/components/Transaction.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +42,18 @@ const router = createRouter({
           path: '/customers',
           name: 'customers',
           component: Customers
+        },
+        {
+          path: '/games',
+          name: 'games',
+          component: Games
+        },
+        { 
+          path: '/transaction',
+          name: 'transaction',
+          component: Transaction
         }
+
 
       ]
     },

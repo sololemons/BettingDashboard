@@ -20,7 +20,7 @@
           <tbody>
             <tr v-for="betslip in betslips" :key="betslip.id" class="text-center hover:bg-gray-100">
               <td class="py-2 px-4">{{ betslip.betSlipId }}</td>
-              <td class="py-2 px-4">{{ betslip.matchInfo.homeTeam }}  vs {{ betslip.matchInfo.awayTeam }}</td>
+              <td class="py-2 px-4">{{ betslip.matchInfo.homeTeam }}  🆚  {{ betslip.matchInfo.awayTeam }}</td>
               <td class="py-2 px-4">{{ betslip.market }}</td>
               <td class="py-2 px-4">{{ betslip.odds }}</td>
               <td class="py-2 px-4">{{ betslip.pick }}</td>
