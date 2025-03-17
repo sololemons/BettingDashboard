@@ -1,107 +1,133 @@
 <template>
-    <div class="relative w-[55%] m-5">
-            <input type="text" placeholder="Search..." 
-                class="w-full pl-10 pr-4 py-2 text-gray-700 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 ">
-            <div class="absolute left-3 top-2  text-gray-500">
-                🔍
-            </div>
+  <div class="p-4">
+    <div class="relative w-full max-w-lg mx-auto">
+      <input
+        v-model="searchPhone"
+        type="text"
+        placeholder="Search by Phone Number..."
+        class="w-full pl-10 pr-4 py-2 text-gray-700 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
+      <div class="absolute left-3 top-2 text-gray-500">🔍</div>
+      <button
+        @click="fetchUserProfile"
+        class="bg-green-500 text-white px-4 py-2 rounded-md ml-2"
+      >
+        Search
+      </button>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-4 mt-4">
+      <div class="flex flex-col items-center border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[40%] p-6 rounded-2xl shadow-md">
+        <div class="text-2xl font-extrabold hover:scale-95 transition cursor-pointer">Profile</div>
+        <div class="flex flex-col w-full p-4 border bg-stone-100 shadow-lg rounded-lg space-y-4 mt-4" v-if="user">
+          <p><span class="font-semibold">📞 Phone Number:</span> {{ user.phoneNumber }}</p>
+          <p><span class="font-semibold">Customer ID:</span> {{ user.id }}</p>
         </div>
-  <div class="flex flex-row">
-<div class="relative flex items-start justify-center border border-gray-300 bg-white w-[150%] h-[600px] rounded-2xl shadow-md mt-4 mx-4 space-y-24
-sm:
-md:w-[76%]
-lg:w-[45%]
-xl:w-[150%] xl:h-[600px]
-">
-   
-<div class="text-2xl font-extrabold  transform hover:scale-95 transition cursor-pointer">
-    Profile 
-</div>  
-<div class="relative flex flex-col w-[75%] h-[300px]  p-4 border bg-slate-50 shadow-lg rounded-lg 
-md:space-y-10 md:-left-[15%]
-lg:
-xl:w-96 xl:-left-[38%] 
-">
-    <p><span class="font-semibold">📞Phone Number:</span> <span>+254 712 345 678</span></p>
-    <p><span class="font-semibold">Customer Name:</span> <span>John Doe</span></p>
-    <p><span class="font-semibold">Registration Date:</span> <span>2024-03-05</span></p>
-    <p><span class="font-semibold">Customer ID:</span> <span>#123456</span></p>
-</div>
+      </div>
 
-</div>
-<div class="relative flex items-start justify-center border border-gray-300 bg-white w-[70%] h-[750px] rounded-2xl shadow-md mt-4 mx-5">
-</div>
-  </div>
-  <div class="relative flex items-start border border-gray-200 shadow-md bg-slate-50 w-full mt-10 ">
-        <table class="w-full bg-green-300">
-            <thead class="w-full">
-                <tr>
-                        <th class="py-3 px-4">Bet ID</th>
-                        <th class="py-3 px-4 ">Bet Placed On</th>
-                        <th class="py-3 px-4">Possible Win</th>
-                        <th class="py-3 px-4">Stake</th>
-                        <th class="py-3 px-4">Status</th>
-                        <th class="py-3 px-4">Total Games</th>
-                        <th class="py-3 px-4">Total Odds</th>
-                        <th class="py-3 px-4">User ID</th>
-                        </tr>
-            </thead>
-            <tbody>
-                <tr class="hover:bg-green-500 cursor-pointer" @click="openModal()">
-                        <td class="py-3 text-center">101</td>
-                        <td class="py-3 text-center ">2024-03-05</td>
-                        <td class="py-3 text-center ">5000</td>
-                        <td class="py-3 text-center ">250</td>
-                        <td class="py-3 text-center">
-                      <button class="bg-yellow-300 rounded-2xl p-2">Pending</button>
-                        </td>
-                        <td class="py-3 text-center">5</td>
-                        <td class="py-3 text-center">3.2</td>
-                        <td class="py-3 text-center">202</td>
-                    </tr>
-                        </tbody>
-             
-    
-        </table>
-  
+      <div class="border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[60%] h-96 rounded-2xl shadow-md"></div>
+    </div>
 
-  </div>
-  
-<div v-if="isModalOpen" id="betslipModal" class="fixed inset-0 bg-black bg-opacity-65 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-2/3">
-      
-      <button @click="closeModal" class="float-right text-gray-500 text-xl">&times;</button>
-      
-      <h2 class="text-lg font-bold mb-3">Bet Slip Details</h2>
-      <table class="w-full border-collapse border border-gray-300">
-        <thead class="bg-gray-800 text-white">
+    <div v-if="bets.length > 0" class="relative overflow-x-auto bg-slate-50 shadow-md border border-gray-200 mt-10 rounded-lg">
+      <table class="w-full bg-green-300">
+        <thead class="bg-green-500 text-white">
           <tr>
-            <th class="py-2 px-4">Betslip ID</th>
-            <th>Matches</th>
-            <th class="py-2 px-4">Market</th>
-            <th class="py-2 px-4">Odds</th>
-            <th class="py-2 px-4">Pick</th>
+            <th class="py-3 px-4">Bet ID</th>
+            <th class="py-3 px-4">Bet Placed On</th>
+            <th class="py-3 px-4">Possible Win</th>
+            <th class="py-3 px-4">Stake</th>
+            <th class="py-3 px-4">Status</th>
+            <th class="py-3 px-4">Total Games</th>
+            <th class="py-3 px-4">Total Odds</th>
           </tr>
         </thead>
+        <tbody>
+          <tr v-for="bet in bets" :key="bet.betId" class="hover:bg-green-500 cursor-pointer text-center" @click="openModal(bet.betId)">
+            <td class="py-3">{{ bet.betId }}</td>
+            <td class="py-3">{{ bet.betPlacedOn }}</td>
+            <td class="py-3">{{ bet.possibleWin }}</td>
+            <td class="py-3">{{ bet.stake }}</td>
+            <td class="py-3">
+              <button class="bg-yellow-300 rounded-2xl px-4 py-1">{{ bet.status }}</button>
+            </td>
+            <td class="py-3">{{ bet.totalGames }}</td>
+            <td class="py-3">{{ bet.totalOdds }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <BetslipModal :isOpen="isModalOpen"  @close="isModalOpen = false" />
-  </div>
-  </template>
 
+    <BetslipModal :isOpen="isModalOpen" :betslips="betslips" @close="isModalOpen = false" />
+  </div>
+</template>
 
 <script setup>
-import { ref } from 'vue';
-import BetslipModal from './BetslipModal.vue';
+import { onMounted, ref } from "vue";
+import axios from "axios";
+import BetslipModal from "./BetslipModal.vue";
+import { useRoute } from "vue-router";
 
-
+const router = useRoute()
+const searchPhone = ref("");
+const betslips = ref([]);
+const user = ref(null);
+const bets = ref([]);
 const isModalOpen = ref(false);
-const openModal = () => {
+
+const fetchUserProfile = async () => {
+  if (!searchPhone.value) {
+    console.warn("Enter a phone number to search.");
+    return;
+  }
+
+  try {
+const response = await axios.get(`http://localhost:8081/admins/get?phoneNumber=${encodeURIComponent(searchPhone.value)}`);
+
+    user.value = response.data;
+    console.log("data", response.data)
+    if (user.value && user.value.id) {
+      await fetchBets(user.value.id);
+    } else {
+      console.error("User ID not found in profile data.");
+    }
+
+  } catch (error) {
+    console.error("No user found", error);
+    user.value = null;
+    bets.value = [];
+  }
+};
+
+const fetchBets = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:8081/admins/get/bets?id=${id}`);
+    bets.value = response.data;
+  } catch (error) {
+    console.error("No bets found", error);
+    bets.value = [];
+  }
+};
+
+const openModal = async (betID) => {
   isModalOpen.value = true;
+  await fetchBetslips(betID)
+
 };
+const fetchBetslips = async (betID) => {
+  try {
+    const response = await axios.get(`http://localhost:8081/admins/betId?betId=${betID}`);
+    betslips.value = response.data;
+  } catch (error) {
+    console.error("No betslips found", error);
+    betslips.value = [];
+  }
+};
+onMounted(() => {
+  if (router.query.phoneNumber) {
+    searchPhone.value = router.query.phoneNumber;
+    fetchUserProfile();
+  }
+});
 
 
-const closeModal = () => {
-  isModalOpen.value = false;
-};
 </script>
