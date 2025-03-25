@@ -7,11 +7,11 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     isAuthenticated: !!localStorage.getItem('token'), 
     token: localStorage.getItem('token') || '',
+    role: localStorage.getItem('role') || '', 
     user: {},  
     status: '',
     loading: false,
     errorMessage: '',
-    role: '',  
     phoneNumber:'',
   }),
 
@@ -31,9 +31,10 @@ export const useAuthStore = defineStore('auth', {
       this.status = 'loading';
       try {
         const response = await axios.post('/auth/authenticate/admin', credentials);
-        const { token, role,phoneNumber } = response.data; 
+        const { token, role, phoneNumber } = response.data; 
 
         localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -46,6 +47,7 @@ export const useAuthStore = defineStore('auth', {
         this.status = 'success';
       } catch (error) {
         this.status = 'error';
+        this.isAuthenticated = false;
         if (error.response && error.response.status === 401) {
           this.setErrorMessage('Invalid username or password');
         } else {
@@ -91,6 +93,7 @@ export const useAuthStore = defineStore('auth', {
       this.phoneNumber='';
       this.status = '';
       localStorage.removeItem('token');
+      localStorage.removeItem('role');
       delete axios.defaults.headers.common['Authorization'];
     },
   },

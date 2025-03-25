@@ -8,6 +8,8 @@ import Profiles from '@/components/Profiles.vue'
 import Customers from '@/components/Customers.vue'
 import Games from '@/components/Games.vue'
 import Transaction from '@/components/Transaction.vue'
+import { requireAuth } from '@/stores/authGuard'
+import Unauthorized from '@/components/unauthorized.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,15 +24,18 @@ const router = createRouter({
       name : 'signUp',
       component: SignUp
     },
+
     {
       path: '/dashboard',
       name: '/dashboard',
       component: Dashboard,
+      beforeEnter: requireAuth,
       children: [
         {
         path: '/analytics',
         name: 'analytics',
-        component: Analytics
+        component: Analytics,
+        meta: { role: 'SuperAdmin' }
         },
         {
           path: '/profiles',
@@ -41,18 +46,27 @@ const router = createRouter({
         {
           path: '/customers',
           name: 'customers',
-          component: Customers
+          component: Customers,
+          meta: { role: 'CustomerCare' }
         },
         {
           path: '/games',
           name: 'games',
-          component: Games
+          component: Games,
+          meta: { role: 'CustomerCare' }
         },
+      
         { 
           path: '/transaction',
           name: 'transaction',
-          component: Transaction
-        }
+          component: Transaction,
+          meta: {role: 'SuperAdmin'}
+        },
+        {
+          path: '/unauthorized',
+          name: 'unauthorized',
+          component: Unauthorized
+        },
 
 
       ]

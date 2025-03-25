@@ -19,10 +19,10 @@
       </button>
     </div>
    
-    <div class="flex flex-col lg:flex-row gap-4 mt-4">
+    <div v-if="user" class="flex flex-col lg:flex-row gap-4 mt-4">
       <div class="flex flex-col items-center border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[40%] p-6 rounded-2xl shadow-md">
         <div class="text-2xl font-extrabold hover:scale-95 transition cursor-pointer">Profile</div>
-        <div class="flex flex-col w-full p-4 border bg-stone-100 shadow-lg rounded-lg space-y-4 mt-4" v-if="user">
+        <div class="flex flex-col w-full p-4 border bg-stone-100 shadow-lg rounded-lg space-y-4 mt-4">
           <p><span class="font-semibold">📞 Phone Number:</span> {{ user.phoneNumber }}</p>
           <p><span class="font-semibold">Customer ID:</span> {{ user.id }}</p>
         </div>
