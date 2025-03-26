@@ -6,8 +6,8 @@ import router from './router';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-import { faSignOutAlt, faUserShield, faUsers, faChartBar, faGamepad, faMoneyBillWave, faUserPlus } from '@fortawesome/free-solid-svg-icons';
-library.add(faSignOutAlt, faUserShield, faUsers, faChartBar, faGamepad, faMoneyBillWave, faUserPlus);
+import { faSignOutAlt, faUserShield, faUsers, faChartBar, faGamepad, faMoneyBillWave, faUserPlus,faChartLine, faUserCircle, faEye} from '@fortawesome/free-solid-svg-icons';
+library.add(faSignOutAlt, faUserShield, faUsers, faChartBar, faGamepad, faMoneyBillWave, faUserPlus, faChartLine, faUserCircle, faEye);
 const app = createApp(App)
 const pinia = createPinia()
 app.use(pinia)

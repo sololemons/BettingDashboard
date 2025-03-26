@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" id="betslipModal" class="fixed inset-0 bg-black bg-opacity-65 flex items-center justify-center">
+  <div v-if="isOpen" id="betslipModal" class="fixed inset-0 bg-black bg-opacity-65 flex items-center justify-center z-50">
     <div class="bg-white p-6 rounded-lg shadow-lg w-2/3 relative">
       <button @click="closeModal" class="absolute top-2 right-4 text-gray-500 text-2xl hover:text-gray-700">&times;</button>
 

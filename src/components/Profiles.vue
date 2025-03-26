@@ -30,8 +30,14 @@
 
       <div class="border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[60%] h-96 rounded-2xl shadow-md"></div>
     </div>
+    
 
-    <div v-if="bets.length > 0" class="relative overflow-x-auto bg-slate-50 shadow-md border border-gray-200 mt-10 rounded-lg">
+    <div class="flex space-x-4 mt-6 border-b">
+      <button @click="activeTab = 'bets'" :class="{ 'border-b-4 border-green-500 font-bold': activeTab === 'bets' }" class="px-4 py-2">Bets</button>
+      <button @click="activeTab = 'transactions'" :class="{ 'border-b-4 border-green-500 font-bold': activeTab === 'transactions' }" class="px-4 py-2">Transactions</button>
+    </div>
+
+    <div v-if="bets.length > 0 && activeTab == 'bets'" class="relative overflow-x-auto bg-slate-50 shadow-md border border-gray-200 mt-10 rounded-lg">
       <table class="w-full bg-green-300">
         <thead class="bg-green-500 text-white">
           <tr>
@@ -60,6 +66,35 @@
       </table>
     </div>
 
+    <div v-if="activeTab === 'transactions' && transactions.length > 0" class="mt-6">
+  <div class="overflow-x-auto bg-white rounded-2xl shadow-lg p-4">
+    <table class="w-full min-w-[600px] border-collapse">
+      <thead class="bg-blue-600 text-white">
+        <tr>
+          <th class="py-3 px-4 text-left">Transaction Ref</th>
+          <th class="py-3 px-4 text-left">Transacation Type</th>
+          <th class="py-3 px-4 text-left">Amount</th>
+          <th class="py-3 px-4 text-left">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="transaction in transactions" :key="transaction.transactionRef" class="border-b hover:bg-blue-100">
+          <td class="py-3 px-4">{{ transaction.transactionRef }}</td>
+          <td class="py-3 px-4">
+            <span class="px-3 py-1 text-sm font-semibold rounded-lg text-white" 
+                  :class="transaction.transactionType === 'CREDIT' ? 'bg-green-500' : 'bg-red-500'">
+              {{ transaction.transactionType }}
+            </span>
+          </td>
+          <td class="py-3 px-4 font-medium text-gray-700">Ksh {{ transaction.amount}}</td>
+          <td class="py-3 px-4 text-gray-600">{{ formatDate(transaction.transactionDate) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
     <BetslipModal :isOpen="isModalOpen" :betslips="betslips" @close="isModalOpen = false" />
   </div>
 </template>
@@ -74,15 +109,14 @@ import LoadingSpinner from "./LoadingSpinner.vue";
 const router = useRoute()
 const searchPhone = ref("");
 const betslips = ref([]);
+const activeTab = ref("bets");
+const transactions = ref([]);
 const user = ref(null);
 const bets = ref([]);
 const isModalOpen = ref(false);
 const loading = ref(false)
 const fetchUserProfile = async () => {
-  if (!searchPhone.value) {
-    console.warn("Enter a phone number to search.");
-    return;
-  }
+
   loading.value = true;
 
   try {
@@ -92,6 +126,7 @@ const response = await axios.get(`http://localhost:8081/admins/get?phoneNumber=$
     console.log("data", response.data)
     if (user.value && user.value.id) {
       await fetchBets(user.value.id);
+      await fetchTransactions(user.value.id);
     } else {
       console.error("User ID not found in profile data.");
     }
@@ -100,6 +135,7 @@ const response = await axios.get(`http://localhost:8081/admins/get?phoneNumber=$
     console.error("No user found", error);
     user.value = null;
     bets.value = [];
+    transactions.value = [];
   }
   finally{
     loading.value = false
@@ -128,6 +164,14 @@ const fetchBetslips = async (betID) => {
   } catch (error) {
     console.error("No betslips found", error);
     betslips.value = [];
+  }
+};
+const fetchTransactions = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:8081/admins/get/transactions?id=${id}`);
+    transactions.value = response.data;
+  } catch (error) {
+    transactions.value = [];
   }
 };
 const formatDate = (dateString) => {
