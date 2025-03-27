@@ -5,7 +5,7 @@
       class="w-60 bg-blue-900 text-white flex flex-col p-6 space-y-6 absolute md:relative md:block md:h-screen z-50 transition-transform transform md:translate-x-0"
       :class="{ '-translate-x-full': !isSidebarOpen }">
       
-      <h2 class="text-2xl font-extrabold text-center text-black bg-blue-400 p-2">SoloBETS</h2>
+      <h2 class="text-2xl font-extrabold text-center text-white bg-black p-2">SoloBETS</h2>
       <nav class="flex-1">
         <ul class="space-y-4">
           <li>

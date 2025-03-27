@@ -11,6 +11,8 @@ import Transaction from '@/components/Transaction.vue'
 import { requireAuth } from '@/stores/authGuard'
 import Unauthorized from '@/components/unauthorized.vue'
 
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -35,7 +37,7 @@ const router = createRouter({
         path: '/analytics',
         name: 'analytics',
         component: Analytics,
-        meta: { role: 'SuperAdmin' }
+       
         },
         {
           path: '/profiles',
@@ -47,20 +49,20 @@ const router = createRouter({
           path: '/customers',
           name: 'customers',
           component: Customers,
-          meta: { role: 'CustomerCare' }
+          
         },
         {
           path: '/games',
           name: 'games',
           component: Games,
-          meta: { role: 'CustomerCare' }
+        
         },
       
         { 
           path: '/transaction',
           name: 'transaction',
           component: Transaction,
-          meta: {role: 'SuperAdmin'}
+         
         },
         {
           path: '/unauthorized',
@@ -75,6 +77,7 @@ const router = createRouter({
       path: '/stle',
       component: Stle
     }
+   
    
     
  

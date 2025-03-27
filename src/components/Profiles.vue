@@ -19,18 +19,31 @@
       </button>
     </div>
    
-    <div v-if="user" class="flex flex-col lg:flex-row gap-4 mt-4">
-      <div class="flex flex-col items-center border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[40%] p-6 rounded-2xl shadow-md">
-        <div class="text-2xl font-extrabold hover:scale-95 transition cursor-pointer">Profile</div>
-        <div class="flex flex-col w-full p-4 border bg-stone-100 shadow-lg rounded-lg space-y-4 mt-4">
-          <p><span class="font-semibold">📞 Phone Number:</span> {{ user.phoneNumber }}</p>
-          <p><span class="font-semibold">Customer ID:</span> {{ user.id }}</p>
-        </div>
-      </div>
-
-      <div class="border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[60%] h-96 rounded-2xl shadow-md"></div>
-    </div>
+    <div v-if="user" class="flex flex-col lg:flex-row gap-6 mt-6">
+  <!-- Profile Card -->
+  <div class="flex flex-col items-center border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[40%] p-6 rounded-2xl shadow-md">
+    <h2 class="text-2xl font-extrabold hover:scale-95 transition cursor-pointer">Profile</h2>
     
+    <div class="flex flex-col w-full p-4 border bg-stone-100 shadow-lg rounded-lg space-y-4 mt-4">
+      <p><span class="font-semibold">📞 Phone Number:</span> {{ user.phoneNumber }}</p>
+      <p><span class="font-semibold">🆔 Customer ID:</span> {{ user.id }}</p>
+      <p><span class="font-semibold">💰 Account Balance:</span> {{ user.accountBalance }}</p>
+    </div>
+  </div>
+
+
+  <div class="border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[60%] p-6 rounded-2xl shadow-md">
+    <h2 class="text-2xl font-extrabold mb-4">Betting Summary</h2>
+
+    <div class="space-y-3">
+      <p><span class="font-extrabold">Number of Bets Placed:</span> {{ totalBetsPlaced }}</p>
+      <p><span class="font-extrabold">Status:</span> <span class="text-gray-700">Active</span></p>
+      <p><span class="font-extrabold">Total Amount Deposited:</span> {{ totalDeposited }}</p>
+      <p><span class="font-extrabold">Total Amount Withdrawn:</span></p>
+    </div>
+  </div>
+</div>
+
 
     <div class="flex space-x-4 mt-6 border-b">
       <button @click="activeTab = 'bets'" :class="{ 'border-b-4 border-green-500 font-bold': activeTab === 'bets' }" class="px-4 py-2">Bets</button>
@@ -60,7 +73,7 @@
               <button class="bg-yellow-300 rounded-2xl px-4 py-1">{{ bet.status }}</button>
             </td>
             <td class="py-3">{{ bet.totalGames }}</td>
-            <td class="py-3">{{ bet.totalOdds }}</td>
+            <td class="py-3">{{ bet.totalOdds.toFixed(2) }}</td>
           </tr>
         </tbody>
       </table>
@@ -105,6 +118,7 @@ import axios from "axios";
 import BetslipModal from "./BetslipModal.vue";
 import { useRoute } from "vue-router";
 import LoadingSpinner from "./LoadingSpinner.vue";
+import { computed } from "vue";
 
 const router = useRoute()
 const searchPhone = ref("");
@@ -174,6 +188,13 @@ const fetchTransactions = async (id) => {
     transactions.value = [];
   }
 };
+
+const totalBetsPlaced = computed(() => bets.value.length);
+const totalDeposited = computed(() => {
+  return bets.value.reduce((sum, bet) => sum + bet.stake, 0);
+});
+
+
 const formatDate = (dateString) => {
     const options = { weekday: "long", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
     return new Date(dateString).toLocaleDateString("en-US", options);
