@@ -102,7 +102,7 @@ onMounted(() => {
       <div class="w-full">
         <div class="font-extrabold text-2xl text-center mb-6">Analytics Graph</div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-1  lg:grid-cols-2 xl:grid-cols-2 gap-6">
 
           <BetCountsGraph />
           <MarketCharts />

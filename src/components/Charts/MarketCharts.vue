@@ -8,7 +8,6 @@ const betslips = ref([]);
 const selectedDate = ref(moment().format("YYYY-MM-DD"));
 const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-
 const marketChartData = ref({
     labels: weekDays,
     datasets: [
@@ -30,14 +29,13 @@ const marketChartData = ref({
 });
 
 const marketChartOptions = {
-    responsive: false,
-    maintainAspectRatio: true,
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
         x: { title: { display: true, text: "Day of the Week" } },
         y: { title: { display: true, text: "Number of Betslips" }, beginAtZero: true }
     }
 };
-
 
 const fetchBetslips = async () => {
     try {
@@ -48,7 +46,6 @@ const fetchBetslips = async () => {
         console.error("Failed to fetch betslips:", error);
     }
 };
-
 
 const updateMarketChart = () => {
     const marketCounts = {
@@ -70,19 +67,30 @@ const updateMarketChart = () => {
         }
     });
 
-    marketChartData.value.datasets[0].data = weekDays.map(day => marketCounts.Market1x2[day]);
-    marketChartData.value.datasets[1].data = weekDays.map(day => marketCounts.MarketDoubleChance[day]);
+    marketChartData.value = {
+        ...marketChartData.value,
+        datasets: [
+            {
+                ...marketChartData.value.datasets[0],
+                data: weekDays.map(day => marketCounts.Market1x2[day])
+            },
+            {
+                ...marketChartData.value.datasets[1],
+                data: weekDays.map(day => marketCounts.MarketDoubleChance[day])
+            }
+        ]
+    };
 };
-
-
 
 onMounted(() => {
     fetchBetslips();
 });
-watch(selectedDate, fetchBetslips)
+
+watch(selectedDate, async () => {
+    await fetchBetslips();
+    updateMarketChart();
+});
 </script>
-
-
 
 <template>
     <div class="w-full border border-gray-200 px-10 rounded-2xl shadow-md bg-white p-6">
@@ -92,7 +100,6 @@ watch(selectedDate, fetchBetslips)
                 class="mt-1 p-2 border rounded-md w-full focus:ring-2 focus:ring-blue-500" />
         </div>
 
-
-        <BarChart :chart-data="marketChartData" :chart-options="marketChartOptions" />
+        <BarChart :data="marketChartData" :options="marketChartOptions" />
     </div>
 </template>

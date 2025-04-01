@@ -45,24 +45,35 @@ const fetchBets = async () => {
                 betCounts[dayName]++;
             }
         });
-        betCountsData.value.datasets[0].data = weekDays.map((day) => betCounts[day]);
+
+        betCountsData.value = {
+            ...betCountsData.value,
+            datasets: [
+                {
+                    ...betCountsData.value.datasets[0],
+                    data: weekDays.map((day) => betCounts[day])
+                }
+            ]
+        };
+
     } catch (error) {
         console.error("Failed to fetch bets:", error);
     }
 };
 
+watch(selectedDate, fetchBets, { immediate: true });
+
 onMounted(fetchBets);
-watch(selectedDate, fetchBets);
+
 </script>
+
 <template>
     <div class="w-full border border-gray-200 px-10 rounded-2xl shadow-md bg-white p-6">
         <div class="mb-4">
             <label for="date" class="block text-sm font-medium text-gray-700">Select Date:</label>
-            <input type="date" id="date" v-model="selectedDate" @change="fetchBets"
+            <input type="date" id="date" v-model="selectedDate"
                 class="mt-1 p-2 border rounded-md w-full focus:ring-2 focus:ring-blue-500" />
         </div>
-
-
-        <BarChart :chart-data="betCountsData" :chart-options="chartOptions" />
+        <BarChart :data="betCountsData" :options="chartOptions" />
     </div>
 </template>

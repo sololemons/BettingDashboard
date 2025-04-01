@@ -31,6 +31,7 @@ const searchCustomers = async () => {
     return;
   }
   try {
+
     const response = await axios.get(`http://localhost:8081/admins/search`, {
       params: { phoneNumber: searchQuery.value, page: 0, size: pageSize },
     });

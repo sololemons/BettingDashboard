@@ -20,7 +20,8 @@ const toggleDropDown = () => {
 
 const logout = () => {
   authStore.logout();
-  router.push("/");
+  router.push({ name: "login" });
+
 };
 </script>
 
@@ -69,7 +70,6 @@ const logout = () => {
             <li
               class=" p-2 rounded hover:bg-slate-950 transition font-bold text-emerald-300 cursor-pointer flex items-center justify-between"
               @click="toggleDropDown">
-              <font-awesome-icon :icon="['fas', 'user-shield']" class="mr-2" />
               Admin Profile
               <span>▼</span>
             </li>

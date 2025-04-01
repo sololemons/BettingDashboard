@@ -18,7 +18,7 @@ const handleSubmit = async () => {
 
       });
     if (signupSucess) {
-      router.push("/login")
+      router.push({ name: "login" });
     }
     else {
       console.error("Failed to Navigate")

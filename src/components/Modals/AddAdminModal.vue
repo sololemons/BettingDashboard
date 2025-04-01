@@ -21,7 +21,11 @@ const admin = ref({
 
 const addAdmin = async () => {
   try {
-    await axios.post('http://localhost:8081/admin/add', admin.value);
+    const headers = {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    };
+    await axios.post('http://localhost:8081/admin/add', admin.value, { headers });
     emit('add-admin', admin.value);
     closeModal();
   } catch (error) {
