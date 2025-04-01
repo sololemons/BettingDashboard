@@ -5,14 +5,14 @@ axios.defaults.baseURL = 'http://localhost:8081';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    isAuthenticated: !!localStorage.getItem('token'), 
+    isAuthenticated: !!localStorage.getItem('token'),
     token: localStorage.getItem('token') || '',
-    role: localStorage.getItem('role') || '', 
-    user: {},  
+    role: localStorage.getItem('role') || '',
+    user: {},
     status: '',
     loading: false,
     errorMessage: '',
-    phoneNumber:'',
+    phoneNumber: '',
   }),
 
   actions: {
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('auth', {
       this.status = 'loading';
       try {
         const response = await axios.post('/auth/authenticate/admin', credentials);
-        const { token, role, phoneNumber } = response.data; 
+        const { token, role, phoneNumber } = response.data;
 
         localStorage.setItem('token', token);
         localStorage.setItem('role', role);
@@ -39,9 +39,9 @@ export const useAuthStore = defineStore('auth', {
         axios.defaults.headers.post['Content-Type'] = 'application/json';
 
         this.token = token;
-        this.role = role; 
+        this.role = role;
         this.phoneNumber = phoneNumber;
-       
+
         this.user = response.data.user;
         this.isAuthenticated = true;
         this.status = 'success';
@@ -89,8 +89,8 @@ export const useAuthStore = defineStore('auth', {
       this.isAuthenticated = false;
       this.token = '';
       this.user = {};
-      this.role = ''; 
-      this.phoneNumber='';
+      this.role = '';
+      this.phoneNumber = '';
       this.status = '';
       localStorage.removeItem('token');
       localStorage.removeItem('role');
@@ -100,7 +100,7 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     authStatus: (state) => state.status,
-    getRole: (state) => state.role, 
+    getRole: (state) => state.role,
   },
 });
 
