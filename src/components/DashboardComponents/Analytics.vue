@@ -15,7 +15,7 @@ const transactions = ref([]);
 
 const fetchUsers = async () => {
   try {
-    const response = await axios.get(`http://localhost:8081/admins/all/user`);
+    const response = await axios.get(`/admins/all/user`);
     users.value = response.data;
   } catch (error) {
     console.error("No users found", error);
@@ -24,7 +24,7 @@ const fetchUsers = async () => {
 };
 const fetchBets = async () => {
   try {
-    const response = await axios.get(`http://localhost:8081/admins/all/bets`);
+    const response = await axios.get(`/admins/all/bets`);
     bets.value = response.data;
   } catch (error) {
     console.error("No bets found", error);
@@ -33,7 +33,7 @@ const fetchBets = async () => {
 };
 const fetchTransactions = async () => {
   try {
-    const response = await axios.get(`http://localhost:8081/admins/fetch/all`);
+    const response = await axios.get(`/admins/fetch/all`);
     transactions.value = response.data;
   } catch (error) {
     console.error("No transactions found", error);

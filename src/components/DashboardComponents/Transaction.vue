@@ -9,7 +9,7 @@ const searchQuery = ref("");
 
 const fetchTransactions = async () => {
   try {
-    const response = await axios.get("http://localhost:8081/admins/fetch/all");
+    const response = await axios.get("/admins/fetch/all");
     transactions.value = response.data;
   } catch (error) {
     console.error("Error fetching transactions:", error);

@@ -9,7 +9,7 @@ const loading = ref(true);
 const fetchMatches = async () => {
   loading.value = true;
   try {
-    const response = await axios.get("http://localhost:8081/admins/games");
+    const response = await axios.get("/admins/games");
     matches.value = response.data;
   } catch (error) {
     console.error("Error fetching matches:", error);

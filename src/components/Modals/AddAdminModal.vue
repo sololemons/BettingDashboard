@@ -25,7 +25,7 @@ const addAdmin = async () => {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
     };
-    await axios.post('http://localhost:8081/admin/add', admin.value, { headers });
+    await axios.post('/admin/add', admin.value, { headers });
     emit('add-admin', admin.value);
     closeModal();
   } catch (error) {

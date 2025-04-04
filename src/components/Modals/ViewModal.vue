@@ -7,7 +7,7 @@ const admins = ref([]);
 
 const fetchAdmins = async () => {
     try {
-        const response = await axios.get('http://localhost:8081/admin/get/all');
+        const response = await axios.get('/admin/get/all');
         admins.value = response.data;
     } catch (error) {
         console.error('Failed to fetch admins');
@@ -17,7 +17,7 @@ const fetchAdmins = async () => {
 const deleteAdmin = async (adminId) => {
     if (!confirm('Are you sure you want to delete this admin?')) return;
     try {
-        await axios.delete(`http://localhost:8081/admin/delete?adminId=${adminId}`);
+        await axios.delete(`/admin/delete?adminId=${adminId}`);
         admins.value = admins.value.filter(admin => admin.adminId !== adminId);
         console.success('Admin deleted successfully');
     } catch (error) {

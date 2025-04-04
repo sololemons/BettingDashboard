@@ -20,7 +20,7 @@ const fetchUserProfile = async () => {
   loading.value = true;
 
   try {
-    const response = await axios.get(`http://localhost:8081/admins/get?phoneNumber=${encodeURIComponent(searchPhone.value)}`);
+    const response = await axios.get(`/admins/get?phoneNumber=${encodeURIComponent(searchPhone.value)}`);
 
     user.value = response.data;
     console.log("data", response.data)
@@ -44,7 +44,7 @@ const fetchUserProfile = async () => {
 
 const fetchBets = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:8081/admins/get/bets?id=${id}`);
+    const response = await axios.get(`/admins/get/bets?id=${id}`);
     bets.value = response.data;
   } catch (error) {
     console.error("No bets found", error);
@@ -59,7 +59,7 @@ const openModal = async (betID) => {
 };
 const fetchBetslips = async (betID) => {
   try {
-    const response = await axios.get(`http://localhost:8081/admins/betId?betId=${betID}`);
+    const response = await axios.get(`/admins/betId?betId=${betID}`);
     betslips.value = response.data;
   } catch (error) {
     console.error("No betslips found", error);
@@ -68,7 +68,7 @@ const fetchBetslips = async (betID) => {
 };
 const fetchTransactions = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:8081/admins/get/transactions?id=${id}`);
+    const response = await axios.get(`/admins/get/transactions?id=${id}`);
     transactions.value = response.data;
   } catch (error) {
     transactions.value = [];

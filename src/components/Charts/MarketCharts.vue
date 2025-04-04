@@ -39,7 +39,7 @@ const marketChartOptions = {
 
 const fetchBetslips = async () => {
     try {
-        const response = await axios.get("http://localhost:8081/admins/all/betslips");
+        const response = await axios.get("/admins/all/betslips");
         betslips.value = response.data;
         updateMarketChart();
     } catch (error) {

@@ -14,6 +14,7 @@ import router from '@/router';
 import { onMounted, onUnmounted } from 'vue';
 const { loading } = storeToRefs(useAuthStore());
 
+
 const TOKEN_REFRESH_INTERVAL = 5 * 60 * 1000;
 const INACTIVITY_LOGOUT_TIME = 5 * 60 * 1000;
 
@@ -102,6 +103,7 @@ onUnmounted(() => {
   clearInterval(tokenRefreshTimer);
   clearTimeout(inactivityTimer);
 });
+
 </script>
 
 <style scoped></style>

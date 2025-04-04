@@ -32,7 +32,7 @@ const chartOptions = {
 
 const fetchBets = async () => {
     try {
-        const response = await axios.get("http://localhost:8081/admins/all/bets");
+        const response = await axios.get("/admins/all/bets");
         bets.value = response.data;
 
         const betCounts = { Monday: 0, Tuesday: 0, Wednesday: 0, Thursday: 0, Friday: 0, Saturday: 0, Sunday: 0 };

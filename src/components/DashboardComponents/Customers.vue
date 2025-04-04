@@ -13,7 +13,7 @@ const loading = ref(true)
 
 const fetchCustomers = async () => {
   try {
-    const response = await axios.get(`http://localhost:8081/admins/all/users?page=${page.value}&size=${pageSize}`);
+    const response = await axios.get(`/admins/all/users?page=${page.value}&size=${pageSize}`);
     customers.value = response.data.content;
     totalPages.value = response.data.totalPages;
   } catch (error) {
@@ -32,7 +32,7 @@ const searchCustomers = async () => {
   }
   try {
 
-    const response = await axios.get(`http://localhost:8081/admins/search`, {
+    const response = await axios.get(`/admins/search`, {
       params: { phoneNumber: searchQuery.value, page: 0, size: pageSize },
     });
     customers.value = response.data.content;
