@@ -19,7 +19,13 @@ const fetchMatches = async () => {
 };
 
 const formatDate = (dateString) => {
-  const options = { weekday: "long", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
+  const options = {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
   return new Date(dateString).toLocaleDateString("en-US", options);
 };
 
@@ -28,29 +34,44 @@ onMounted(fetchMatches);
 
 <template>
   <div class="p-6 bg-gray-100 min-h-screen">
-    <h1 class="text-3xl font-bold text-center text-green-600 mb-6">Upcoming Matches</h1>
-
+    <h1 class="text-3xl font-bold text-center text-green-600 mb-6">
+      Upcoming Matches
+    </h1>
 
     <div v-if="loading" class="flex justify-center items-center h-32">
       <LoadingSpinner :show="loading" />
     </div>
 
-
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="match in matches" :key="match.matchId"
-        class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition transform hover:scale-105">
+      <div
+        v-for="match in matches"
+        :key="match.matchId"
+        class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition transform hover:scale-105"
+      >
         <div class="text-lg font-semibold text-center text-gray-800">
           {{ match.homeTeam }} 🆚 {{ match.awayTeam }}
         </div>
-        <p class="text-center text-gray-500 mt-2">{{ formatDate(match.startTime) }}</p>
+        <p class="text-center text-gray-500 mt-2">
+          {{ formatDate(match.startTime) }}
+        </p>
 
-        <div v-for="market in match.markets" :key="market.marketId" class="mt-4">
-          <h3 class="text-lg font-semibold text-green-700">{{ market.marketName }}</h3>
+        <div
+          v-for="market in match.markets"
+          :key="market.marketId"
+          class="mt-4"
+        >
+          <h3 class="text-lg font-semibold text-green-700">
+            {{ market.marketName }}
+          </h3>
 
           <div class="flex flex-wrap gap-2 mt-2">
-            <button v-for="odd in market.oddsList" :key="odd.oddsId"
-              class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition w-full sm:w-auto text-center">
-              {{ odd.oddType }}: <span class="font-bold">{{ odd.oddsValue }}</span>
+            <button
+              v-for="odd in market.oddsList"
+              :key="odd.oddsId"
+              class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition w-full sm:w-auto text-center"
+            >
+              {{ odd.oddType }}:
+              <span class="font-bold">{{ odd.oddsValue }}</span>
             </button>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { useRoute } from "vue-router";
 import LoadingSpinner from "../LoadingSpinner.vue";
 import { computed } from "vue";
 
-const router = useRoute()
+const router = useRoute();
 const searchPhone = ref("");
 const betslips = ref([]);
 const activeTab = ref("bets");
@@ -14,31 +14,30 @@ const transactions = ref([]);
 const user = ref(null);
 const bets = ref([]);
 const isModalOpen = ref(false);
-const loading = ref(false)
+const loading = ref(false);
 const fetchUserProfile = async () => {
-
   loading.value = true;
 
   try {
-    const response = await axios.get(`/admins/get?phoneNumber=${encodeURIComponent(searchPhone.value)}`);
+    const response = await axios.get(
+      `/admins/get?phoneNumber=${encodeURIComponent(searchPhone.value)}`,
+    );
 
     user.value = response.data;
-    console.log("data", response.data)
+    console.log("data", response.data);
     if (user.value && user.value.id) {
       await fetchBets(user.value.id);
       await fetchTransactions(user.value.id);
     } else {
       console.error("User ID not found in profile data.");
     }
-
   } catch (error) {
     console.error("No user found", error);
     user.value = null;
     bets.value = [];
     transactions.value = [];
-  }
-  finally {
-    loading.value = false
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -54,8 +53,7 @@ const fetchBets = async (id) => {
 
 const openModal = async (betID) => {
   isModalOpen.value = true;
-  await fetchBetslips(betID)
-
+  await fetchBetslips(betID);
 };
 const fetchBetslips = async (betID) => {
   try {
@@ -80,9 +78,14 @@ const totalDeposited = computed(() => {
   return bets.value.reduce((sum, bet) => sum + bet.stake, 0);
 });
 
-
 const formatDate = (dateString) => {
-  const options = { weekday: "long", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
+  const options = {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
   return new Date(dateString).toLocaleDateString("en-US", options);
 };
 
@@ -92,10 +95,7 @@ onMounted(() => {
     fetchUserProfile();
   }
 });
-
-
 </script>
-
 
 <template>
   <div class="p-4">
@@ -103,51 +103,96 @@ onMounted(() => {
       <LoadingSpinner :show="loading" />
     </div>
     <div class="relative w-full max-w-lg mx-auto">
-      <input v-model="searchPhone" type="text" placeholder="Search by Phone Number..."
-        class="w-full pl-10 pr-4 py-2 text-gray-700 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500" />
+      <input
+        v-model="searchPhone"
+        type="text"
+        placeholder="Search by Phone Number..."
+        class="w-full pl-10 pr-4 py-2 text-gray-700 border rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
       <div class="absolute left-3 top-2 text-gray-500">🔍</div>
-      <button @click="fetchUserProfile" class="bg-green-500 text-white px-4 py-2 rounded-md ml-2">
+      <button
+        @click="fetchUserProfile"
+        class="bg-green-500 text-white px-4 py-2 rounded-md ml-2"
+      >
         Search
       </button>
     </div>
 
     <div v-if="user" class="flex flex-col lg:flex-row gap-6 mt-6">
-      <!-- Profile Card -->
       <div
-        class="flex flex-col items-center border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[40%] p-6 rounded-2xl shadow-md">
-        <h2 class="text-2xl font-extrabold hover:scale-95 transition cursor-pointer">Profile</h2>
+        class="flex flex-col items-center border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[40%] p-6 rounded-2xl shadow-md"
+      >
+        <h2
+          class="text-2xl font-extrabold hover:scale-95 transition cursor-pointer"
+        >
+          Profile
+        </h2>
 
-        <div class="flex flex-col w-full p-4 border bg-stone-100 shadow-lg rounded-lg space-y-4 mt-4">
-          <p><span class="font-semibold">📞 Phone Number:</span> {{ user.phoneNumber }}</p>
-          <p><span class="font-semibold">🆔 Customer ID:</span> {{ user.id }}</p>
-          <p><span class="font-semibold">💰 Account Balance:</span> {{ user.accountBalance }}</p>
+        <div
+          class="flex flex-col w-full p-4 border bg-stone-100 shadow-lg rounded-lg space-y-4 mt-4"
+        >
+          <p>
+            <span class="font-semibold">📞 Phone Number:</span>
+            {{ user.phoneNumber }}
+          </p>
+          <p>
+            <span class="font-semibold">🆔 Customer ID:</span> {{ user.id }}
+          </p>
+          <p>
+            <span class="font-semibold">💰 Account Balance:</span>
+            {{ user.accountBalance }}
+          </p>
         </div>
       </div>
 
-
-      <div class="border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[60%] p-6 rounded-2xl shadow-md">
+      <div
+        class="border border-gray-300 bg-white w-full lg:w-1/2 xl:w-[60%] p-6 rounded-2xl shadow-md"
+      >
         <h2 class="text-2xl font-extrabold mb-4">Betting Summary</h2>
 
         <div class="space-y-3">
-          <p><span class="font-extrabold">Number of Bets Placed:</span> {{ totalBetsPlaced }}</p>
-          <p><span class="font-extrabold">Status:</span> <span class="text-gray-700">Active</span></p>
-          <p><span class="font-extrabold">Total Amount Deposited:</span> {{ totalDeposited }}</p>
+          <p>
+            <span class="font-extrabold">Number of Bets Placed:</span>
+            {{ totalBetsPlaced }}
+          </p>
+          <p>
+            <span class="font-extrabold">Status:</span>
+            <span class="text-gray-700">Active</span>
+          </p>
+          <p>
+            <span class="font-extrabold">Total Amount Deposited:</span>
+            {{ totalDeposited }}
+          </p>
           <p><span class="font-extrabold">Total Amount Withdrawn:</span></p>
         </div>
       </div>
     </div>
 
-
     <div class="flex space-x-4 mt-6 border-b">
-      <button @click="activeTab = 'bets'" :class="{ 'border-b-4 border-green-500 font-bold': activeTab === 'bets' }"
-        class="px-4 py-2">Bets</button>
-      <button @click="activeTab = 'transactions'"
-        :class="{ 'border-b-4 border-green-500 font-bold': activeTab === 'transactions' }"
-        class="px-4 py-2">Transactions</button>
+      <button
+        @click="activeTab = 'bets'"
+        :class="{
+          'border-b-4 border-green-500 font-bold': activeTab === 'bets',
+        }"
+        class="px-4 py-2"
+      >
+        Bets
+      </button>
+      <button
+        @click="activeTab = 'transactions'"
+        :class="{
+          'border-b-4 border-green-500 font-bold': activeTab === 'transactions',
+        }"
+        class="px-4 py-2"
+      >
+        Transactions
+      </button>
     </div>
 
-    <div v-if="bets.length > 0 && activeTab == 'bets'"
-      class="relative overflow-x-auto bg-slate-50 shadow-md border border-gray-200 mt-10 rounded-lg">
+    <div
+      v-if="bets.length > 0 && activeTab == 'bets'"
+      class="relative overflow-x-auto bg-slate-50 shadow-md border border-gray-200 mt-10 rounded-lg"
+    >
       <table class="w-full bg-green-300">
         <thead class="bg-green-500 text-white">
           <tr>
@@ -161,14 +206,20 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="bet in bets" :key="bet.betId" class="hover:bg-green-500 cursor-pointer text-center"
-            @click="openModal(bet.betId)">
+          <tr
+            v-for="bet in bets"
+            :key="bet.betId"
+            class="hover:bg-green-500 cursor-pointer text-center"
+            @click="openModal(bet.betId)"
+          >
             <td class="py-3">{{ bet.betId }}</td>
             <td class="py-3">{{ formatDate(bet.betPlacedOn) }}</td>
             <td class="py-3">{{ bet.possibleWin }}</td>
             <td class="py-3">{{ bet.stake }}</td>
             <td class="py-3">
-              <button class="bg-yellow-300 rounded-2xl px-4 py-1">{{ bet.status }}</button>
+              <button class="bg-yellow-300 rounded-2xl px-4 py-1">
+                {{ bet.status }}
+              </button>
             </td>
             <td class="py-3">{{ bet.totalGames }}</td>
             <td class="py-3">{{ bet.totalOdds.toFixed(2) }}</td>
@@ -177,7 +228,10 @@ onMounted(() => {
       </table>
     </div>
 
-    <div v-if="activeTab === 'transactions' && transactions.length > 0" class="mt-6">
+    <div
+      v-if="activeTab === 'transactions' && transactions.length > 0"
+      class="mt-6"
+    >
       <div class="overflow-x-auto bg-white rounded-2xl shadow-lg p-4">
         <table class="w-full min-w-[600px] border-collapse">
           <thead class="bg-blue-600 text-white">
@@ -189,24 +243,40 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="transaction in transactions" :key="transaction.transactionRef"
-              class="border-b hover:bg-blue-100">
+            <tr
+              v-for="transaction in transactions"
+              :key="transaction.transactionRef"
+              class="border-b hover:bg-blue-100"
+            >
               <td class="py-3 px-4">{{ transaction.transactionRef }}</td>
               <td class="py-3 px-4">
-                <span class="px-3 py-1 text-sm font-semibold rounded-lg text-white"
-                  :class="transaction.transactionType === 'CREDIT' ? 'bg-green-500' : 'bg-red-500'">
+                <span
+                  class="px-3 py-1 text-sm font-semibold rounded-lg text-white"
+                  :class="
+                    transaction.transactionType === 'CREDIT'
+                      ? 'bg-green-500'
+                      : 'bg-red-500'
+                  "
+                >
                   {{ transaction.transactionType }}
                 </span>
               </td>
-              <td class="py-3 px-4 font-medium text-gray-700">Ksh {{ transaction.amount }}</td>
-              <td class="py-3 px-4 text-gray-600">{{ formatDate(transaction.transactionDate) }}</td>
+              <td class="py-3 px-4 font-medium text-gray-700">
+                Ksh {{ transaction.amount }}
+              </td>
+              <td class="py-3 px-4 text-gray-600">
+                {{ formatDate(transaction.transactionDate) }}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-
-    <BetslipModal :isOpen="isModalOpen" :betslips="betslips" @close="isModalOpen = false" />
+    <BetslipModal
+      :isOpen="isModalOpen"
+      :betslips="betslips"
+      @close="isModalOpen = false"
+    />
   </div>
 </template>
