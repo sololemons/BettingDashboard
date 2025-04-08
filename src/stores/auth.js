@@ -30,7 +30,7 @@ export const useAuthStore = defineStore("auth", {
       try {
         const response = await axios.post(
           "/auth/authenticate/admin",
-          credentials
+          credentials,
         );
         const { token, role, phoneNumber } = response.data;
 
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore("auth", {
         } else {
           this.setErrorMessage("Login failed");
         }
-        console.error("Login failed:", error.response?.data || error.message);
+
         localStorage.removeItem("token");
       } finally {
         this.setLoading(false);
@@ -87,6 +87,7 @@ export const useAuthStore = defineStore("auth", {
     logout() {
       this.isAuthenticated = false;
       this.token = "";
+      this.role = "";
       this.user = {};
       this.role = "";
       this.phoneNumber = "";

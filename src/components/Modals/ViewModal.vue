@@ -56,9 +56,9 @@ onMounted(fetchAdmins);
             <td class="p-3">
               <button
                 @click="deleteAdmin(admin.adminId)"
-                class="text-red-500 hover:text-red-700"
+                class="text-black bg-red-500 hover:bg-red-600 rounded-lg p-2 text-sm"
               >
-                <p>delete</p>
+                Delete
               </button>
             </td>
           </tr>
@@ -68,8 +68,4 @@ onMounted(fetchAdmins);
   </div>
 </template>
 
-<style scoped>
-button {
-  transition: color 0.2s ease-in-out;
-}
-</style>
+<style scoped></style>

@@ -2,9 +2,11 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useToast } from "vue-toast-notification";
 
 const phoneNumber = ref("");
 const password = ref("");
+const $toast = useToast();
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -21,6 +23,10 @@ const handleLogin = async () => {
     });
 
     router.push("/dashboard");
+    $toast.success("Login successful, welcome back!", {
+      duration: 3000,
+      position: "top",
+    });
   } catch (error) {
     console.error("Login failed", error);
   } finally {

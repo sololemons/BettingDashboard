@@ -1,6 +1,8 @@
 <script setup>
 import { defineEmits, ref } from "vue";
 import axios from "axios";
+import { useToast } from "vue-toast-notification";
+const $toast = useToast();
 
 const props = defineProps({
   isOpen: {
@@ -26,6 +28,10 @@ const addAdmin = async () => {
     };
     await axios.post("/admin/add", admin.value, { headers });
     emit("add-admin", admin.value);
+    $toast.success("Admin added successfully", {
+      duration: 3000,
+      position: "top",
+    });
     closeModal();
   } catch (error) {
     console.error("Error adding admin:", error);

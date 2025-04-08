@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-
-const TOKEN_REFRESH_INTERVAL = 2 * 60 * 1000;
-const INACTIVITY_LOGOUT_TIME = 30 * 60 * 1000;
+import { useToast } from "vue-toast-notification";
+const $toast = useToast();
+const TOKEN_REFRESH_INTERVAL = 1 * 60 * 1000;
+const INACTIVITY_LOGOUT_TIME = 2 * 60 * 1000;
 
 export const sessionStore = defineStore("session", {
   state: () => ({
@@ -25,7 +26,7 @@ export const sessionStore = defineStore("session", {
       }
     },
     async refreshAuthToken() {
-      const currentToken = this.token;
+      const currentToken = this.token || localStorage.getItem("token");
       console.log("Sent Token:", currentToken);
 
       if (
@@ -63,8 +64,10 @@ export const sessionStore = defineStore("session", {
     logoutUser() {
       localStorage.removeItem("token");
       localStorage.removeItem("role");
-      this.token = null;
-      alert("Session expired due to inactivity or token expiration");
+      $toast.error("Session expired. Please log in again.", {
+        position: "top-center",
+        duration: 3000,
+      });
     },
 
     resetInactivityTimer() {

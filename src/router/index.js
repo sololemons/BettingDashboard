@@ -3,7 +3,6 @@ import Login from "@/views/Login.vue";
 import SignUp from "@/views/SignUp.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import Analytics from "@/components/DashboardComponents/Analytics.vue";
-import Stle from "@/components/stle.vue";
 import Profiles from "@/components/DashboardComponents/Profiles.vue";
 import Customers from "@/components/DashboardComponents/Customers.vue";
 import Games from "@/components/DashboardComponents/Games.vue";
@@ -69,10 +68,6 @@ const router = createRouter({
           component: ViewModal,
         },
       ],
-    },
-    {
-      path: "/stle",
-      component: Stle,
     },
   ],
 });

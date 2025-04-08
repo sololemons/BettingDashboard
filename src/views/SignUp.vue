@@ -2,11 +2,14 @@
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
+import { useToast } from "vue-toast-notification";
+
 const phoneNumber = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const authStore = useAuthStore();
 const router = useRouter();
+const $toast = useToast();
 
 const handleSubmit = async () => {
   try {
@@ -15,7 +18,11 @@ const handleSubmit = async () => {
       password: password.value,
       confirmPassword: confirmPassword.value,
     });
-    router.push("/");
+    $toast.success("Registration successful, please login!", {
+      duration: 3000,
+      position: "top",
+    });
+    router.push({ name: "login" });
   } catch (error) {
     console.error("Registering failed", error);
   }
